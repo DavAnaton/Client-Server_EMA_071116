@@ -1,0 +1,43 @@
+#wrapper{
+	position: relative;
+}
+#bateau{
+	position: absolute;
+	top: 0;
+	left: 0;
+    border-collapse: collapse;
+}
+#bateau td{
+	height: 20px;
+	width: 20px;
+}
+#bateau td.fill{
+	background-color: red;
+}
+#damier, #damier_adv{
+	position: relative;
+}
+#damier table, #damier_adv table{
+	position: relative;
+	top: 0;
+	left: 0;
+    border-collapse: collapse;
+}
+#damier td, #damier_adv td{
+	height: 20px;
+	width: 20px;
+	border: 1px solid black;
+	padding: -1px;
+}
+#damier td.bateau0{
+	background-color: pink;
+}
+#damier td.bateau1{
+	background-color: violet;
+}
+#damier td.bateau2{
+	background-color: blue;
+}
+#damier_adv.your_turn td:hover{
+	background-color: black;
+}

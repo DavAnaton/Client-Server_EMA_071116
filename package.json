@@ -1,0 +1,16 @@
+{
+  "name": "client_server",
+  "version": "1.0.0",
+  "description": "Jeu de bataille navale en ligne",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "David ANATON & Dyana DOUKHAN",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.5.2",
+    "express": "^4.14.0",
+    "socket.io": "^1.5.1"
+  }
+}
