@@ -41,3 +41,12 @@
 #damier_adv.your_turn td:hover{
 	background-color: black;
 }
+#damier td.touche, #damier_adv td.touche{
+	background-color: green;
+}
+#damier td.rate, #damier_adv td.rate{
+	background-color: red;
+}
+#damier td.coule, #damier_adv td.coule{
+	background-color: blue;
+}

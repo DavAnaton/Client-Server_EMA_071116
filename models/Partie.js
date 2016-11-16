@@ -59,7 +59,35 @@ var Partie = function(){
 
 	}
 
-	this.start = function(){
+	this.jouerCoup = function(joueur, coup){
+		var attaquant = this.joueurs.indexOf(joueur);
+		var defendant = (attaquant + 1) % 2;
+
+		if(this.etat.joueur1 == "attente" && this.etat.joueur2 == "attente"){
+			if(attaquant == 0){
+				this.etat.joueur1 = "coup";
+			}else{
+				this.etat.joueur2 = "coup";
+			}
+		}
+		if((this.etat.joueur1 == "coup" && attaquant == 0) || (this.etat.joueur2 == "coup" && attaquant == 1)){
+
+			var resultat = this.joueurs[defendant].verifierCoup(coup);
+			this.joueurs[attaquant].noterCoup(resultat);
+			if(resultat.etat == "rate"){
+				if(attaquant == 0){
+					this.etat.joueur1 = "attente";
+					this.etat.joueur2 = "coup";
+				}else{
+					this.etat.joueur1 = "coup";
+					this.etat.joueur2 = "attente";
+				}
+			}
+
+			return resultat;
+		}else{
+			return false;
+		}
 
 	}
 

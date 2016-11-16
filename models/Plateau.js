@@ -71,6 +71,43 @@ var Plateau = function(taille){
 		return true;
 	}
 
+	this.verifierCoup = function(coup){
+		var retour = {ligne: coup.ligne, colonne: coup.colonne, etat: ""};
+		var case_attaquee = this.damier[coup.ligne][coup.colonne];
+
+		if(case_attaquee.etat == "bateau"){
+			case_attaquee.etat = "touche";
+			this.bateaux[case_attaquee.refBateau].restant --;
+			retour.etat = "touche";
+			if(this.bateaux[case_attaquee.refBateau].restant == 0){
+				retour.etat = "coule";
+				var cases_coulees = [];
+				for (var i = 0; i < this.damier.length; i++) {
+					for (var j = 0; j < this.damier[i].length; j++) {
+						if(this.damier[i][j].refBateau == this.damier[coup.ligne][coup.colonne].refBateau){
+							this.damier[i][j].etat = "coule";
+							cases_coulees.push({ligne: i, colonne: j});
+						}
+					}
+				}
+				retour.coulees = cases_coulees;
+
+				var gagne = true;
+				for (var i = 0; i < this.bateaux.length; i++) {
+					if(this.bateaux[i].restant > 0){
+						gagne = false;
+					}
+				}
+				if(gagne){
+					retour.etat = "gagne"
+				}
+			}
+		}else if(case_attaquee.etat == "vide"){
+			retour.etat = "rate";
+		}
+		return retour;
+	}
+
 }
 
 module.exports = Plateau;

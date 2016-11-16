@@ -21,6 +21,18 @@ var Joueur = function(){
 		bateau.position = position;
 		return this.plateau.placerBateau(bateau);
 	}
+
+	this.verifierCoup = function(coup){
+		return this.plateau.verifierCoup(coup);
+	}
+	this.noterCoup = function(resultat){
+		this.plateau_adv.damier[resultat.ligne][resultat.colonne].etat = resultat.etat;
+		if(resultat.etat == "coule"){
+			for (var i = 0; i < resultat.coulees.length; i++) {
+				this.plateau_adv.damier[resultat.coulees[i].ligne][resultat.coulees[i].colonne].etat = resultat.etat;
+			}
+		}
+	}
 }
 
 module.exports = Joueur;

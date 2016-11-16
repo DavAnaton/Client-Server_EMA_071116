@@ -19,9 +19,9 @@ var partie = new Partie();
 io.on('connection', function (socket) {
 	socket.joueur = new Joueur();
 	socket.joueur.setPlateau(8);
-		partie.ajoutJoueur(socket.joueur)
-		partie.startPlacement();
-		socket.emit('attente_placement', {index: 0, bateau: partie.bateaux[0], plateau: socket.joueur.plateau});
+		// partie.ajoutJoueur(socket.joueur)
+		// partie.startPlacement();
+		// socket.emit('attente_placement', {index: 0, bateau: partie.bateaux[0], plateau: socket.joueur.plateau});
 
 	socket.on('nouveau_joueur', function(data){
 		socket.joueur.setNom(data.nom);
@@ -43,17 +43,19 @@ io.on('connection', function (socket) {
 			socket.emit('attente_placement', {index: data.index + 1, bateau: partie.bateaux[data.index + 1], plateau: socket.joueur.plateau});
 		}else{
 			if(partie.getEtat()=="jeu"){
-				partie.start();
-				socket.emit('attente_placement_adv', {plateau: socket.joueur.plateau, plateau_adv: socket.joueur.plateau_adv});
+				socket.emit('fin_placement', {plateau: socket.joueur.plateau, plateau_adv: socket.joueur.plateau_adv});
+				socket.emit('attente_coup_adv');
 				socket.broadcast.emit('attente_coup');
 			}else{
-				socket.emit('attente_placement_adv', {plateau: socket.joueur.plateau, plateau_adv: socket.joueur.plateau_adv});
+				socket.emit('fin_placement', {plateau: socket.joueur.plateau, plateau_adv: socket.joueur.plateau_adv});
 			}
 		}
 	})
 
 	socket.on('coup', function (data) {
-		console.log(data);
-		console.log(socket.joueur)
+		var resultat = partie.jouerCoup(socket.joueur, data);
+		socket.emit('retour_coup', resultat);
+		socket.emit('attente_coup');
+		socket.broadcast.emit('coup_adv', resultat);
 	});
 });

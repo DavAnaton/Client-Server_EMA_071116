@@ -52,11 +52,55 @@ socket.on("attente_placement", function(data){
 
 })
 
-socket.on("attente_placement_adv", function(data){
+socket.on("fin_placement", function(data){
 	$('#wrapper').html(creerDamierAdverse(data.plateau));
 	$('#wrapper').html($('#wrapper').html() + creerDamierDisplay(data.plateau));
 	
-	$('#wrapper').html($('#wrapper').html() + "<p>Attente adversaire</p>");
+	$('#wrapper').html($('#wrapper').html() + "<p id='output'>Attente adversaire</p>");
+})
+
+socket.on("attente_coup_adv", function(){
+	$('#output').html('Attente du coup de l\'adversaire');
+});
+
+socket.on('attente_coup', function(){
+	enableClick();
+})
+
+socket.on('retour_coup', function(data){
+	switch(data.etat){
+		case "touche":
+			enableClick();
+		case "rate":
+			$('#damier_adv td[data-line="' + data.ligne + '"][data-column="' + data.colonne + '"]').addClass(data.etat)
+			break;
+		case "coule":
+			enableClick();
+			for (var i = 0; i < data.coulees.length; i++) {
+				$('#damier_adv td[data-line="' + data.coulees[i].ligne + '"][data-column="' + data.coulees[i].colonne + '"]').addClass(data.etat).html('X');
+			}
+			break;
+		case "gagne":
+			alert("Vous avez gagné");
+	}
+
+})
+
+socket.on('coup_adv', function(data){
+	switch(data.etat){
+		case "rate":
+			enableClick();
+		case "touche":
+			$('#damier td[data-line="' + data.ligne + '"][data-column="' + data.colonne + '"]').addClass(data.etat)
+			break;
+		case "coule":
+			for (var i = 0; i < data.coulees.length; i++) {
+				$('#damier td[data-line="' + data.coulees[i].ligne + '"][data-column="' + data.coulees[i].colonne + '"]').addClass(data.etat).html('X');
+			}
+			break;
+		case "gagne":
+			alert("Vous avez perdu");
+	}
 })
 
 
@@ -103,4 +147,14 @@ function creerDamierAdverse(plateau){
 	damierDisplay += "</table></div>";
 	return damierDisplay;
 
+}
+
+function enableClick(){
+	$('#damier_adv').addClass('your_turn')
+	$('#damier_adv td').bind('click', function(){
+		$('#damier_adv').removeClass('your_turn')
+		console.log($(this).attr('data-line'), $(this).attr('data-column'));
+		socket.emit('coup', {ligne: $(this).attr('data-line'), colonne: $(this).attr('data-column')})
+		$('#damier_adv td').unbind('click');
+	})
 }
