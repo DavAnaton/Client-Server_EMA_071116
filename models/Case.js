@@ -5,7 +5,7 @@ var Case = function(i, j){
 	this.refBateau = null;
 
 	this.toString = function(){
-		return String.fromCharCode(65 + i)+(j+1);
+		return String.fromCharCode(65 + i)+(j+1); // Formate (1, 1) en "B2"
 	}
 }
 

@@ -2,11 +2,12 @@ var Partie = function(){
 	this.taillePlateau = 8;
 
 	this.joueurs = [];
-	this.etat = {partie: "attente_joueur", joueur1: "attente", joueur2: "attente"}
+	this.etat = {partie: "attente_joueur", joueur1: "attente", joueur2: "attente"}; // Définition de l'état de la partie
 	this.getEtat = function(){
 		return this.etat.partie
 	}
 
+	// Ajout des joueurs et modification de l'état en conséquence
 	this.ajoutJoueur = function(joueur){
 		if(this.joueurs.length == 0){
 			joueur.equipe = 1;
@@ -28,8 +29,10 @@ var Partie = function(){
 
 	this.bateaux = [];
 
+	// Initialisation des bateaux à placer
+	// ******ATTENTION******
+	// Utiliser uniquement des masques de bateaux carrés
 	this.startPlacement = function(){
-		this.bateaux = [];
 		this.bateaux.push([[1, 1, 1],
 		 				   [0, 1, 0],
 		 				   [0, 1, 0]]);
@@ -41,6 +44,9 @@ var Partie = function(){
 		  				   [1, 1]]);
 	}
 
+	// Vérification de l'emplacement bateau
+	// enregistrement de la position 
+	// et modification de l'état de la partie
 	this.placerBateau = function(joueur, bateau, position){
 		var emplacement_libre =joueur.placerBateau(bateau, position);
 
@@ -59,21 +65,30 @@ var Partie = function(){
 
 	}
 
+	// Vérification de la validité du coup (le coup vient du bon joueur)
+	// Déterminitation du résultat du coup
+	// Enregistrement des modifications
+	// Mise à jour de l'état de la partie
 	this.jouerCoup = function(joueur, coup){
 		var attaquant = this.joueurs.indexOf(joueur);
 		var defendant = (attaquant + 1) % 2;
 
+		// Cas ou les deux joueurs viennent de finir de placer les bateaux
 		if(this.etat.joueur1 == "attente" && this.etat.joueur2 == "attente"){
+			// Celui qui avait fini en premier a reçu un signal lui permettant d'envoyer son coup
+			// On déclare qu'il est le premier à jouer ici
 			if(attaquant == 0){
 				this.etat.joueur1 = "coup";
 			}else{
 				this.etat.joueur2 = "coup";
 			}
 		}
+
+		// Si le coup est bien légitime (le coup vient du bon joueur)
 		if((this.etat.joueur1 == "coup" && attaquant == 0) || (this.etat.joueur2 == "coup" && attaquant == 1)){
 
 			var resultat = this.joueurs[defendant].verifierCoup(coup);
-			this.joueurs[attaquant].noterCoup(resultat);
+			this.joueurs[attaquant].noterCoup(resultat); // Prendre en compte le résultat coté client
 			if(resultat.etat == "rate"){
 				if(attaquant == 0){
 					this.etat.joueur1 = "attente";
@@ -86,7 +101,7 @@ var Partie = function(){
 
 			return resultat;
 		}else{
-			return false;
+			return false; // Le joueur défendant a voulu tricher et envoyer un coup pas à son tour. On ignore ce coup.
 		}
 
 	}

@@ -3,7 +3,7 @@ var Bateau = function(forme){
 	this.forme = forme;
 
 	this.restant = 0;
-	for(i = 0; i < this.taille.y; i++){
+	for(i = 0; i < this.taille.y; i++){ // Compte le nombre de 1 dans le masque de forme
 		for(j = 0; j < this.taille.x; j++){
 			if(this.forme[i][j]){
 				this.restant++;
@@ -11,9 +11,8 @@ var Bateau = function(forme){
 		}
 	}
 
-	this.position = {x:1, y: 1, theta: 1};
-
-
+	// ********DEBUG*********
+	// Affiche la forme du bateau dans la console du serveur
 	this.afficher = function(){
 		for(i = 0; i < this.taille.y; i++){
 			for(j = 0; j < this.taille.x; j++){
