@@ -1,4 +1,7 @@
 # Client-Server_EMA_071116
+
+[Live Demo](http://battleship-ema.herokuapp.com/) (open 2 tabs)
+
 ## BattleShip
 
 [![LogoBattleShip](https://github.com/DavAnaton/Client-Server_EMA_071116/raw/master/Docs/logo.png)]()
@@ -10,6 +13,11 @@ For now, you can:
   - Open two tabs in a web browser
   - Play battleship with a friend
 
+### Tutorial
+
+ - Enter your username
+ - Place your boats using the keyboard (arrows and enter)
+ - The first player will start shooting using his mouse. Green means boat, Red is missed, Blue means the boad is sunk
 
 ### Installation
 
