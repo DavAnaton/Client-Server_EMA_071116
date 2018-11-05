@@ -4,7 +4,8 @@
   "description": "Jeu de bataille navale en ligne",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "author": "David ANATON & Dyana DOUKHAN",
   "license": "ISC",
