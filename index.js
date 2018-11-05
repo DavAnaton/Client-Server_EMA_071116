@@ -1,7 +1,7 @@
 // Imports utiles au projet
 var express = require('express'),
 	app = express(),
-	_PORT_ = 8081, // Choix du port d'écoute du serveur
+	_PORT_ = process.env.PORT || 8081, // Choix du port d'écoute du serveur
 	server = app.listen(_PORT_);
 
 var Partie = require('./models/Partie.js'),
